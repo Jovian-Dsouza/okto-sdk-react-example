@@ -3,11 +3,16 @@ import React from "react";
 
 import { SessionProvider } from "next-auth/react";
 import { AppContextProvider } from "./AppContext";
+import SolanaWalletProvider from "./WalletProvider";
 
 function AppProvider({ children, session }) {
   return (
     <SessionProvider session={session}>
-      <AppContextProvider>{children}</AppContextProvider>
+      <SolanaWalletProvider>
+        <AppContextProvider>
+          {children}
+        </AppContextProvider>
+      </SolanaWalletProvider>
     </SessionProvider>
   );
 }

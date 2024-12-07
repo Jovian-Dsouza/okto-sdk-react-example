@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { LoginButton } from "./components/LoginButton";
 import { useOkto, OktoContextType, BuildType, AuthType } from "okto-sdk-react";
@@ -10,6 +10,7 @@ import AuthButton from "./components/AuthButton";
 import SendRawTransaction from "./components/SendRawTransaction";
 import { EmailOTPVerification } from "./components/EmailOTPVerification";
 import { PhoneOTPVerification } from "./components/PhoneOTPVerification";
+import BlinkComp from "./components/BlinkComp";
 
 export default function Home() {
   const { data: session } = useSession();
@@ -41,6 +42,9 @@ export default function Home() {
     readContractData
   } = useOkto() as OktoContextType;
   const idToken = useMemo(() => (session ? session.id_token : null), [session]);
+
+  const [blinkUrl, setBlinkUrl] = useState("");
+  const [isBlinkAdded, setIsBlinkAdded] = useState(false);
 
   async function handleAuthenticate(): Promise<any> {
     if (!idToken) {
@@ -114,6 +118,12 @@ export default function Home() {
     }
   }
 
+  const handleAddBlink = () => {
+    if (blinkUrl) {
+      setIsBlinkAdded(true);
+    }
+  };
+
   useEffect(() => {
     if (isLoggedIn) {
       console.log("Okto is authenticated");
@@ -176,6 +186,40 @@ export default function Home() {
         <GetButton title="Okto Authenticate" apiFn={handleAuthenticate} />
         <AuthButton authenticateWithUserId={authenticateWithUserId}/>
         <GetButton title="Okto Log out" apiFn={handleLogout} />
+
+        <h2 className="col-span-2 text-2xl font-semibold text-center">Blinks Showcase</h2>
+        <BlinkComp
+          propActionApiUrl="https://jup.ag/swap/SOL-SEND"
+          websiteText="jupiter"
+          className="col-span-2"
+        />
+
+        {!isBlinkAdded && (
+          <div className="col-span-2 flex flex-col items-center space-y-4">
+            <input
+              type="text"
+              placeholder="Enter Blink URL"
+              value={blinkUrl}
+              onChange={(e) => setBlinkUrl(e.target.value)}
+              className="w-full px-4 py-2 rounded bg-gray-200 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button
+              onClick={handleAddBlink}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              Add Blink
+            </button>
+          </div>
+        )}
+
+        {isBlinkAdded && (
+          <BlinkComp
+            propActionApiUrl={blinkUrl}
+            websiteText="New Blink"
+            className="col-span-2"
+          />
+        )}
+
         <GetButton title="getPortfolio" apiFn={getPortfolio} />
         <GetButton title="getSupportedNetworks" apiFn={getSupportedNetworks} />
         <GetButton title="getSupportedTokens" apiFn={getSupportedTokens} />
@@ -215,3 +259,4 @@ export default function Home() {
     </main>
   );
 }
+
