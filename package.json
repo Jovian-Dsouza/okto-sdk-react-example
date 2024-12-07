@@ -9,12 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dialectlabs/blinks": "^0.13.0-beta.1",
+    "@radix-ui/react-slot": "^1.1.0",
+    "@solana/actions": "^1.6.2",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-phantom": "^0.9.24",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/web3.js": "^1.95.3",
     "axios": "^1.7.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.468.0",
     "next": "14.2.3",
     "next-auth": "^4.24.7",
     "okto-sdk-react": "^0.1.6",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "tailwind-merge": "^2.5.5",
+    "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
     "@types/node": "^20",
