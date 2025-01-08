@@ -47,6 +47,19 @@ const SendRawTransaction = ({ apiFn }: {apiFn: any}) => {
       <h2 className="text-2xl font-bold">Execute Raw Solana Transaction</h2>
       <div>
         <label className="block text-sm font-medium text-gray-700">
+          Network
+        </label>
+        <select
+          className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+          value={network}
+          onChange={(e) => setNetwork(e.target.value)}
+        >
+          <option value="SOLANA_DEVNET">Solana Devnet</option>
+          <option value="SOLANA">Solana Mainnet</option>
+        </select>
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-700">
           Instructions
         </label>
         <textarea
